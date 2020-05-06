@@ -37,7 +37,7 @@ namespace Ksiazka.TagHelpers
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             TagBuilder result = new TagBuilder("div");
 
-            for(int i=1; i<PageModel.TotalItems-4;i++)
+            for(int i=1; i<PageModel.TotalPage+1;i++)
             {
                 TagBuilder tag = new TagBuilder("a");
                 string url = PageModel.UrlParam.Replace(":",i.ToString());

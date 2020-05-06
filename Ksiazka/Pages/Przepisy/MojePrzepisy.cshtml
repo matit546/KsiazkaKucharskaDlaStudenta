@@ -8,7 +8,7 @@
 @if (User.IsInRole(Role.Administrator))
 {
     <h1>Wszystkie Przepisy</h1>
-    <a class="nav-link text-dark btn btn-secondary" style="background-color:white" asp-area="" asp-page="/Konta/ListaUzytkownikow">Uzytkownicy</a>
+    <a class="nav-link text-dark btn btn-secondary" style="background-color:yellowgreen" asp-area="" asp-page="/Konta/ListaUzytkownikow">Uzytkownicy</a>
     <br />
 
     @if (Model.listaPrzepisow.Przepisy.Count() > 0)
@@ -28,34 +28,34 @@
                 @foreach (var item in Model.listaPrzepisow.Przepisy)
                 {
 
-                <tr>
-                    <td> <h3 style="color:black"><a asp-route-id="@item.Id" style="color:black" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.Nazwa)</a></h3></td>
-                    <td> <img src="~/zdjecia/@item.Zdjecie" width="75" height="75" alt="..."></td>
-                    <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Autor)</h3></td>
-                    <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Data_Dodania)</h3></td>
-                    <td>
-                        <div class="btn-group-lg " role="group">
-                            <button id="btnGroupDrop1" data-toggle="dropdown" class="btn" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bars"> Zarządzaj</i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a asp-page="Edycja" class="btn btn-success form-control" asp-route-id="@item.Id">Edytuj</a>
-                                <form method="post">
-                                    <div>
-                                        <button asp-page-handler="Usun" asp-route-id="@item.Id"
-                                                onclick="return confirm('Czy na pewno?');"
-                                                class="btn btn-danger form-control">
-                                            Usuń
-                                        </button>
-                                    </div>
-                                </form>
+                    <tr>
+                        <td> <h3 style="color:black"><a asp-route-id="@item.Id" style="color:black" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.Nazwa)</a></h3></td>
+                        <td> <img src="~/zdjecia/@item.Zdjecie" width="75" height="75" alt="..."></td>
+                        <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Autor)</h3></td>
+                        <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Data_Dodania)</h3></td>
+                        <td>
+                            <div class="btn-group-lg " role="group">
+                                <button id="btnGroupDrop1" data-toggle="dropdown" class="btn" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bars"> Zarządzaj</i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a asp-page="Edycja" class="btn btn-success form-control" asp-route-id="@item.Id">Edytuj</a>
+                                    <form method="post">
+                                        <div>
+                                            <button asp-page-handler="Usun" asp-route-id="@item.Id"
+                                                    onclick="return confirm('Czy na pewno?');"
+                                                    class="btn btn-danger form-control">
+                                                Usuń
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
+                        </td>
 
 
-                </tr>
+                    </tr>
                 }
                 <tr>
                     <td colspan="5" class="text-right">
@@ -71,10 +71,9 @@
     else
     {
         <p>
-            brak przepisów
+            brakprzepisów
         </p>
     }
-
 }
 @if (User.IsInRole(Role.Uzytkownik))
 {
@@ -97,34 +96,34 @@
                 @foreach (var item in Model.listaPrzepisow.Przepisy)
                 {
 
-                <tr>
+                    <tr>
 
-                    <td> <h3 style="color:black"><a asp-route-id="@item.Id" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.Nazwa)</a></h3></td>
-                    <td> <img src="~/zdjecia/@item.Zdjecie" width="75" height="75" alt="..."></td>
-                    <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Data_Dodania)</h3></td>
-                    <td>
-                        <div class="btn-group-lg " role="group">
-                            <button id="btnGroupDrop1" data-toggle="dropdown" class="btn" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bars"> Zarządzaj</i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a asp-page="Edycja" class="btn btn-success form-control" asp-route-id="@item.Id">Edytuj</a>
-                                <form method="post">
-                                    <div>
-                                        <button asp-page-handler="Usun" asp-route-id="@item.Id"
-                                                onclick="return confirm('Czy na pewno?');"
-                                                class="btn btn-danger form-control">
-                                            Usuń
-                                        </button>
-                                    </div>
-                                </form>
+                        <td> <h3 style="color:black"><a asp-route-id="@item.Id" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.Nazwa)</a></h3></td>
+                        <td> <img src="~/zdjecia/@item.Zdjecie" width="75" height="75" alt="..."></td>
+                        <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Data_Dodania)</h3></td>
+                        <td>
+                            <div class="btn-group-lg " role="group">
+                                <button id="btnGroupDrop1" data-toggle="dropdown" class="btn" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bars"> Zarządzaj</i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a asp-page="Edycja" class="btn btn-success form-control" asp-route-id="@item.Id">Edytuj</a>
+                                    <form method="post">
+                                        <div>
+                                            <button asp-page-handler="Usun" asp-route-id="@item.Id"
+                                                    onclick="return confirm('Czy na pewno?');"
+                                                    class="btn btn-danger form-control">
+                                                Usuń
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
+                        </td>
 
 
-                </tr>
+                    </tr>
                 }
                 <tr>
                     <td colspan="5" class="text-right">

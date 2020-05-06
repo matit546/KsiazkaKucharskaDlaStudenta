@@ -10,6 +10,6 @@ namespace Ksiazka.Utility
         public const string Administrator = "Admin";
         public const string Uzytkownik = "Uzytkownik";
 
-        public const int liczba = 4;
+        public const int liczba = 2;
     }
 }
