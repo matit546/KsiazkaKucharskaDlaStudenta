@@ -1,0 +1,40 @@
+﻿@page
+@model Ksiazka.Pages.Przepisy.SzukaniePrzepisuModel
+@using Ksiazka.Utility
+@{
+    ViewData["Title"] = "SzukaniePrzepisu";
+}
+<div class="col-6">
+    <h1 class="text-info">Przepisy</h1>
+</div>
+@if (User.IsInRole(Role.Uzytkownik) || User.IsInRole(Role.Administrator))
+{
+    <div class="container row">
+        <div class="col-6 text-sm-right">
+            <a asp-page="DodawaniePrzepisu" class="btn btn-primary">Dodaj przepis</a>
+        </div>
+    </div>
+}
+<div class="row">
+    @if (Model.Przepisy.Count() > 0)
+    {
+
+        @foreach (var item in Model.Przepisy)
+        {
+
+            <div class="col-4">
+                <h3 style="color:black"><a asp-route-id="@item.Id" style="color:black" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.Nazwa)</a></h3>
+                <a class=" border" asp-route-id="@item.Id" asp-page="WybranyPrzepis"> <img src="~/zdjecia/@item.Zdjecie" height="350" width="350" alt="brak"></a>
+            </div>
+        }
+    }
+    else
+    {
+        <p>
+            brak przepisów
+        </p>
+    }
+</div>
+
+
+<br />

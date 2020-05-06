@@ -1,0 +1,77 @@
+﻿@page
+@model Ksiazka.Pages.Konta.ListaUzytkownikowModel
+@using Ksiazka.Utility
+@{
+    ViewData["Title"] = "ListaUzytkownikow";
+}
+
+
+
+@if (User.IsInRole(Role.Administrator))
+{
+    <h1 class="text-center bg-info rounded">ListaUzytkownikow</h1>
+    @if (Model.Uzytkownicy.Count() > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nazwa użytkownika</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Data założenia</th>
+                    <th scope="col">#</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.Uzytkownicy)
+                {
+
+                    <tr>
+                        <td> <h3 style="color:black"><a asp-route-id="@item.Id" style="color:black" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.UserName)</a></h3></td>
+                        <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Email)</h3></td>
+                        <td> <h3 style="color:black"> @Html.DisplayFor(m => item.Data_zalozenia)</h3></td>
+                        <td>
+                            <div class="btn-group-lg " role="group">
+                                <button id="btnGroupDrop1" data-toggle="dropdown" class="btn" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bars"> Zarządzaj</i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a asp-page="Edycja" class="btn btn-success form-control" asp-route-id="@item.Id">Edytuj</a>
+                                    <form method="post">
+                                        <div>
+                                            <button asp-page-handler="Usun" asp-route-id="@item.Id"
+                                                    onclick="return confirm('Czy na pewno?');"
+                                                    class="btn btn-danger form-control">
+                                                Usuń
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5" class="text-right">
+                        @*<div page-model="@Model.Uzytkownicy.Paging" asp-action="MojePrzepisy" page-class="btn border"
+                             page-class-normal="btn btn-light" page-class-selected="btn btn-info active" class="btn-group"></div>*@
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    }
+
+    else
+    {
+        <p>
+            Brak uzytkownikow
+        </p>
+    }
+
+}
+else
+    {<p>Brak uprawnień</p> }

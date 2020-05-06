@@ -1,0 +1,77 @@
+﻿@page
+@model Ksiazka.Pages.Przepisy.PrzepisyModel
+@using Ksiazka.Utility
+@{
+    ViewData["Title"] = "Przepisy";
+}
+<div class="col-6">
+    <h1 class="text-info">Wszystkie Przepisy</h1>
+</div>
+
+
+    <div class="container row">
+        <div class="col-12 text-sm-right">
+            @if (User.IsInRole(Role.Uzytkownik) || User.IsInRole(Role.Administrator))
+            {
+                <a asp-page="DodawaniePrzepisu" class="btn btn-primary">Dodaj przepis</a>
+            }
+            else
+            {
+                <a asp-area="Identity" class="btn btn-primary" asp-page="/Account/Register">Dodaj przepis</a>
+            }
+        </div>
+    </div>
+
+<form method="get" asp-page="/Przepisy/SzukaniePrzepisu">
+    <div>
+        <div style="height:60px;">
+            <div class="row">
+                <div class="col-4">
+                    @Html.Editor("Wyszukiwarka", new { htmlAttributes = new { @class = "form-control", placeholder = "Nazwa..." } })
+                </div>
+                <div class="col-2">
+                    <button type="submit" name="submit" value="Wyszukiwarka" class="btn btn-info form-control">
+                        <i class="fa fa-search" aria-hidden="true"> Szukaj</i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+
+    <div class="row">
+        @if (Model.Przepisy.Count() > 0)
+        {
+
+            @foreach (var item in Model.Przepisy)
+            {
+
+                <div class="col-4" id="@item.Id" onmouseover="zmiana_koloru(@item.Id)"  onmouseout="zmiana_koloru_1(@item.Id)">
+                    <h3 style="color:black"><a asp-route-id="@item.Id" style="color:black" asp-page="WybranyPrzepis"> @Html.DisplayFor(m => item.Nazwa)</a></h3>
+                    <a class=" border" asp-route-id="@item.Id" asp-page="WybranyPrzepis"> <img src="~/zdjecia/@item.Zdjecie" height="350" width="350" alt="brak"></a>
+                    <Hr />
+                </div>
+
+            }
+        }
+        else
+        {
+            <p>
+                brak przepisów
+            </p>
+        }
+    </div>
+
+
+<br />
+
+<form method="Post">
+    <input type="submit" asp-page-handler="Approve" class="btn btn-secondary" value="Wiecej" disabled="@(Model.disbale2 ? "disabled" : null)" />
+</form>
+
+
+
+
+

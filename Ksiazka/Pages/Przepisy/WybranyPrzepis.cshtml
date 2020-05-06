@@ -1,0 +1,198 @@
+﻿@page
+@model Ksiazka.Pages.Przepisy.WybranyPrzepisModel
+@using Ksiazka.Utility
+@{
+    ViewData["Title"] = "WybranyPrzepis";
+}
+
+<br />
+<div class="jumbotron text-center">
+    <h1>@Html.DisplayFor(x => x.Przepis.Nazwa)</h1>
+    <b> @Html.DisplayNameFor(m => m.Przepis.Autor)</b>
+    @Html.DisplayFor(x => x.Przepis.Autor)
+    <div><b>Data Dodania:</b> @Html.DisplayFor(x => x.Przepis.Data_Dodania)</div>
+</div>
+<hr />
+<div class="container">
+    <div class="row">
+        <h2 class="p-2 mb-2 bg-primary text-light rounded-lg">Kategorie:</h2>
+        <div class="col-sm-2">
+            <h2><span class="badge badge-pill badge-info p-3 ">   @Html.DisplayFor(x => x.Przepis.Kategoria_1)</span></h2>
+        </div>
+        <div class="col-sm-2">
+            <h2><span class="badge badge-pill badge-info  p-3 ">   @Html.DisplayFor(x => x.Przepis.Kategoria_2)</span></h2>
+        </div>
+        <div class="col-sm-2">
+            <h2><span class="badge badge-pill badge-info  p-3 ">   @Html.DisplayFor(x => x.Przepis.Kategoria_3)</span></h2>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+
+<div class="container p-3 mb-2 bg-light text-dark">
+
+    <div class="row">
+        <div class="col-sm">
+            <img src="~/zdjecia/@Model.Przepis.Zdjecie" class="d-block w-100" alt="...">
+
+        </div>
+        <div class="col-sm">
+            <div class="inner">
+                <ul class="list-inline">
+                    <li>
+                        <span data-toggle="tooltip" title="" data-orginal-title="trudnosc">
+                            <b>Trudność:</b>
+                            @Html.DisplayFor(x => x.Przepis.Trudnosc)
+                        </span>
+                    </li>
+                    <li>
+                        <b>Czas przygotowania:</b>
+                        @Html.DisplayFor(x => x.Przepis.Czas) min
+
+                    </li>
+                </ul>
+            </div>
+            <h3>  @Html.DisplayNameFor(m => m.Przepis.Skladniki)</h3>
+            @{string zmienna = " ";
+
+                @foreach (char skladnik in Model.Przepis.Skladniki)
+                {
+                    zmienna = zmienna + skladnik;
+                    if (skladnik == (char)13)
+                    {
+                        <p>-@zmienna</p>
+                        zmienna = "";
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<hr />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <h3>Przygotowanie:</h3>
+            @Html.DisplayFor(x => x.Przepis.Opis)
+        </div>
+        <div class="col-sm-3 ">
+            <div>
+                <br />
+                <br />
+                <br />
+                <br />
+                @if (User.Identity.Name == Model.Przepis.Autor || User.IsInRole(Role.Administrator))
+                {
+                    <div>
+                        <a asp-route-id="@Model.Przepis.Id" asp-page="Edycja" class="btn btn-primary form-control"> Edytuj</a>
+                    </div>
+                    <form method="post">
+                        <div>
+
+                            <button asp-page-handler="Usun" asp-route-id="@Model.Przepis.Id"
+                                    onclick="return confirm('Czy na pewno?');"
+                                    class="btn btn-danger form-control">
+                                Usuń
+                            </button>
+                        </div>
+                    </form>
+                }
+                <a asp-page="Przepisy" class="btn btn-success form-control">Powrót</a>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<HR />
+<h3 class="text-center">Komentarze (@Html.Name(Model.Komentarz.Count.ToString()))</h3>
+@{int i = 0;
+    <div class="border border-info col-9 offset-2 text-center rounded-lg">
+        <br />
+
+        <div class="form-group">
+            <form method="post">
+                <textarea class="form-control" asp-for="DodajKomentarz.Komentarz" placeholder="Wpisz komentarz" maxlength="250"></textarea>
+                <span asp-validation-for="DodajKomentarz.Komentarz" class="text-danger"></span>
+                <button asp-page-handler="Komentarz" class="btn btn-secondary col-xl-5">Dodaj komentarz</button>
+            </form>
+        </div>
+
+
+
+        @if (Model.Komentarz.Count > 0)
+        {
+            @foreach (var item in Model.Komentarz)
+            {
+                i++;
+        <div class=" jumbotron col-6 offset-3">
+            @if (User.IsInRole(Role.Administrator) || User.Identity.Name == item.Autor && User.IsInRole(Role.Uzytkownik))
+            {
+
+                <div class="btn-group float-right" role="group">
+                    <button id="btnGroupDrop1" data-toggle="dropdown" class="btn" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bars"> Menu</i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <form method="post">
+                            <div>
+
+                                <button asp-page-handler="UsunKomentarz" asp-route-id="@item.Id"
+                                        onclick="return confirm('Czy na pewno?');"
+                                        class="btn form-control">
+                                    Usuń
+                                </button>
+                            </div>
+                        </form>
+                        <div>
+                            <button onclick="schowaj_pokaz(@i)"
+                                    class="btn form-control">
+                                Edytuj
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            }
+            <div>
+                <img src="~/zdjecia/@item.Awatar" width="50" heigt="50" class="rounded float-left" alt="...">
+
+            </div>
+            <div class="row">
+                <b>@Html.DisplayFor(m => item.Autor)</b>
+                <div class="col-8">@Html.DisplayFor(m => item.Data)</div>
+            </div>
+            <div id="@i" style="display:none">
+                <div class="form-group row">
+                    <form method="post">
+                        <textarea class="form-control" asp-for="DodajKomentarz.Komentarz" placeholder="Wpisz komentarz" maxlength="250"></textarea>
+                        <span asp-validation-for="DodajKomentarz.Komentarz" class="text-danger"></span>
+                        <button asp-route-id="@item.Id" asp-page-handler="EdytujKomentarz" class="btn btn-secondary col-12">Zapisz</button>
+                    </form>
+                    <button class="btn btn-secondary" onclick="schowaj_pokaz(@i)">Anuluj</button>
+                </div>
+            </div>
+            <br />
+            <div class="bg-light rounded-lg">
+                <p class="text-left font-italic font-weight-bold"> @Html.DisplayFor(m => item.Komentarz)</p>
+            </div>
+        </div>
+            }
+        }
+        else
+        {
+            <p>Brak komentarzy</p>
+        }
+
+    </div>
+}
+
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

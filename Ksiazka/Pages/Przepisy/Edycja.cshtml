@@ -1,0 +1,155 @@
+﻿@page
+@model Ksiazka.Pages.Przepisy.EdycjaModel
+@{
+    ViewData["Title"] = "Edycja";
+}
+
+<h1>Edycja</h1>
+<br />
+<br />
+
+<div class="border">
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Przepis.Id" />
+        <div class=" bg-light rounded-lg">
+            <div class="row">
+                <div class="col-1">
+                    <br />
+                    <label class="font-weight-bold text-dark" asp-for="Przepis.Nazwa"></label>
+                </div>
+                <div class="col-10">
+                    <br />
+                    <input asp-for="Przepis.Nazwa" class="form-control" placeholder="Wpisz nazwę przepisu" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1">
+                    <label class="font-weight-bold text-dark" asp-for="Przepis.Kategoria_1"></label>
+                </div>
+                <div class="col-sm-3">
+                    <select name="Przepis.Kategoria_1" asp-for="Przepis.Kategoria_1" class="form-control">
+                        <option value="">Wybierz Opcje</option>
+                        <option value="Śniadanie">Śniadanie</option>
+                        <option value="Obiad">Obiad</option>
+                        <option value="Kolacja">Kolacja</option>
+                        <option value="Deser">Deser</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="font-weight-bold text-dark" asp-for="Przepis.Kategoria_2"></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input asp-for="Przepis.Kategoria_2" placeholder="Wpisz własną kategorię" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="font-weight-bold text-dark" asp-for="Przepis.Kategoria_3"></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input asp-for="Przepis.Kategoria_3" placeholder="Wpisz własną kategorię" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <hr />
+
+            <div class="row ">
+                <div class="col-1">
+                    <br />
+                    <label class="font-weight-bold text-dark" asp-for="Przepis.Opis"></label>
+                </div>
+                <div class="col-5">
+                    <br />
+                    <textarea asp-for="Przepis.Opis" class="form-control" placeholder="Wpisz opis przepisu"></textarea>
+
+                </div>
+
+
+
+
+
+                <div class="col-1">
+                    <br />
+                    <label class="font-weight-bold text-dark" asp-for="Przepis.Skladniki"></label>
+
+                </div>
+                <div class="col-4">
+                    <br />
+                    <textarea asp-for="Przepis.Skladniki" placeholder="Proszę odzielać poszczególne składniki enterem!" class="form-control"></textarea>
+
+                    <br />
+                </div>
+
+
+            </div>
+            <br />
+            <br />
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col-1">
+                        <label class="font-weight-bold text-dark" asp-for="Przepis.Zdjecie"></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="file" asp-for="Zdjecie" onchange="ShowPreview(this)" />
+
+                    </div>
+                    <div class="col-sm-8">
+                        <img id="impPrev" src="~/zdjecia/@Model.Przepis.Zdjecie" class="rounded-lg img-fluid" />
+                    </div>
+                    <div class="col-sm">
+                        <div class="row">
+                            <label class="font-weight-bold text-dark col-6" asp-for="Przepis.Czas"></label>
+                            <input asp-for="Przepis.Czas" class="form-control col-3" />
+                        </div>
+
+
+                        <label class="font-weight-bold text-dark" asp-for="Przepis.Trudnosc"></label>
+
+                        @foreach (var trudnosc in Model.Trudnosci)
+                        {
+                            <div class=" text-dark">
+                                <input type="radio" name="Przepis.Trudnosc" asp-for="Przepis.Trudnosc" value="@trudnosc" />@trudnosc<br />
+                            </div>
+                        }
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-3 offset-sm-4">
+                    <input type="submit" value="Zapisz" class="btn btn-success form-control" />
+                </div>
+                <div class="col-sm-3">
+                    <a asp-route-id="@Model.Przepis.Id" asp-page="WybranyPrzepis" class="btn btn-info form-control">Powrót</a>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
+
+
+
